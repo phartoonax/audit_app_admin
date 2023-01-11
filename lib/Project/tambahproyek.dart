@@ -359,7 +359,7 @@ class _TambahProyekState extends State<TambahProyek> {
                                       }, test: (e) => e is PlatformException);
                                     }
                                   },
-                                  child: const Text("Tambah User",
+                                  child: const Text("Tambah Proyek",
                                       style: TextStyle(
                                           color: Colors.white,
                                           fontSize: 18,
