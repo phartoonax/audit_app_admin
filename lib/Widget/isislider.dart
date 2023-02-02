@@ -68,11 +68,11 @@ class _SliderContentState extends State<SliderContent> {
               data:
                   Theme.of(context).copyWith(dividerColor: Colors.transparent),
               child: ExpansionTile(title: const Text("Proyek"), children: [
-                ListTile(
-                  selected: widget.selector == 2 ? true : false,
-                  title: const Text("Daftar Proyek"),
-                  onTap: () {},
-                ),
+                // ListTile(
+                //   selected: widget.selector == 2 ? true : false,
+                //   title: const Text("Daftar Proyek"),
+                //   onTap: () {},
+                // ),
                 ListTile(
                   selected: widget.selector == 3 ? true : false,
                   title: const Text("Tambah Proyek"),
@@ -84,7 +84,8 @@ class _SliderContentState extends State<SliderContent> {
                             MaterialPageRoute(
                                 builder: (context) => const TambahProyek()));
                       });
-                    });},
+                    });
+                  },
                 ),
               ]),
             )),
@@ -95,11 +96,11 @@ class _SliderContentState extends State<SliderContent> {
               data:
                   Theme.of(context).copyWith(dividerColor: Colors.transparent),
               child: ExpansionTile(title: const Text("User"), children: [
-                ListTile(
-                  selected: widget.selector == 4 ? true : false,
-                  title: const Text("Daftar user"),
-                  onTap: () {},
-                ),
+                // ListTile(
+                //   selected: widget.selector == 4 ? true : false,
+                //   title: const Text("Daftar user"),
+                //   onTap: () {},
+                // ),
                 ListTile(
                   selected: widget.selector == 5 ? true : false,
                   title: const Text("Tambah User"),
