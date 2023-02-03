@@ -14,10 +14,10 @@ import 'Widget/isislider.dart';
 import 'package:date_format/date_format.dart';
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
+  const MyHomePage({super.key, required this.userdata});
 
   final String title = "Main Menu";
-
+  final BackendlessUser userdata;
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
@@ -99,7 +99,8 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SliderDrawer(
-        slider: SliderContent(selector: 1), // ISI SLIDER
+        slider:
+            SliderContent(selector: 1, userdata: widget.userdata), // ISI SLIDER
         appBar: SliderAppBar(
           //BLUE APPBAR
           appBarColor: Colors.white,
@@ -242,6 +243,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                                           DetailProyek(
                                                             proyek: listproyek[
                                                                 index],
+                                                            userdata:
+                                                                widget.userdata,
                                                           )));
                                             },
                                             child: Text("Detail Proyek")),

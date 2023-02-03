@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, constant_identifier_names
 
+import 'package:audit_app_admin/loginpage.dart';
 import 'package:flutter/material.dart';
 import 'package:backendless_sdk/backendless_sdk.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -54,7 +55,7 @@ class _MyAppState extends State<MyApp> {
           debugShowCheckedModeBanner: false,
         );
       },
-      child: const MyHomePage(),
+      child: const LoginPage(),
     );
   }
 }

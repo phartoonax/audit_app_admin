@@ -3,13 +3,16 @@
 import 'package:audit_app_admin/Project/tambahproyek.dart';
 import 'package:audit_app_admin/User/tambahuser.dart';
 import 'package:audit_app_admin/mainmenu.dart';
+import 'package:backendless_sdk/backendless_sdk.dart';
+import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SliderContent extends StatefulWidget {
-  const SliderContent({super.key, required this.selector});
+  const SliderContent(
+      {super.key, required this.selector, required this.userdata});
   final int selector;
-
+  final BackendlessUser userdata;
   @override
   State<SliderContent> createState() => _SliderContentState();
 }
@@ -55,7 +58,9 @@ class _SliderContentState extends State<SliderContent> {
                       Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const MyHomePage()));
+                              builder: (context) => MyHomePage(
+                                    userdata: widget.userdata,
+                                  )));
                     });
                   });
                 },
@@ -82,7 +87,9 @@ class _SliderContentState extends State<SliderContent> {
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const TambahProyek()));
+                                builder: (context) => TambahProyek(
+                                      userdata: widget.userdata,
+                                    )));
                       });
                     });
                   },
@@ -96,11 +103,6 @@ class _SliderContentState extends State<SliderContent> {
               data:
                   Theme.of(context).copyWith(dividerColor: Colors.transparent),
               child: ExpansionTile(title: const Text("User"), children: [
-                // ListTile(
-                //   selected: widget.selector == 4 ? true : false,
-                //   title: const Text("Daftar user"),
-                //   onTap: () {},
-                // ),
                 ListTile(
                   selected: widget.selector == 5 ? true : false,
                   title: const Text("Tambah User"),
@@ -110,7 +112,9 @@ class _SliderContentState extends State<SliderContent> {
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const TambahUser()));
+                                builder: (context) => TambahUser(
+                                      userdata: widget.userdata,
+                                    )));
                       });
                     });
                   },

@@ -14,10 +14,11 @@ import 'package:collection/collection.dart';
 import 'package:syncfusion_flutter_xlsio/xlsio.dart' as xlsio;
 
 class DetailProyek extends StatefulWidget {
-  const DetailProyek({super.key, required this.proyek});
+  const DetailProyek({super.key, required this.proyek, required this.userdata});
 
   final Map proyek;
 
+  final BackendlessUser userdata;
   @override
   State<DetailProyek> createState() => _DetailProyekState();
 }
@@ -73,7 +74,10 @@ class _DetailProyekState extends State<DetailProyek> {
         leading: CloseButton(
           onPressed: () => Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const MyHomePage()),
+            MaterialPageRoute(
+                builder: (context) => MyHomePage(
+                      userdata: widget.userdata,
+                    )),
           ),
         ),
       ),

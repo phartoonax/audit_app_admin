@@ -11,8 +11,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 
 class TambahProyek extends StatefulWidget {
-  const TambahProyek({super.key});
+  const TambahProyek({super.key, required this.userdata});
   final String title = "Tambah User";
+  final BackendlessUser userdata;
   @override
   State<TambahProyek> createState() => _TambahProyekState();
 }
@@ -51,7 +52,8 @@ class _TambahProyekState extends State<TambahProyek> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SliderDrawer(
-        slider: const SliderContent(selector: 3), // ISI SLIDER
+        slider:
+            SliderContent(selector: 3, userdata: widget.userdata), // ISI SLIDER
         appBar: SliderAppBar(
           //BLUE APPBAR
           appBarColor: Colors.white,
@@ -213,7 +215,7 @@ class _TambahProyekState extends State<TambahProyek> {
                               Container(
                                 //next input
                                 width: 200.w,
-                                height: 70.h,
+                                height: 110.h,
                                 padding: const EdgeInsets.all(5),
                                 margin: const EdgeInsets.all(20),
                                 // color: Colors.blue,
@@ -239,7 +241,7 @@ class _TambahProyekState extends State<TambahProyek> {
                                       ),
                                       Container(
                                         width: 100.w,
-                                        height: 70.h,
+                                        height: 80.h,
                                         // color: Colors.red,
                                         child: MultiSelectDialogField(
                                           listType: MultiSelectListType.CHIP,
@@ -288,12 +290,13 @@ class _TambahProyekState extends State<TambahProyek> {
 
                                 child: ElevatedButton(
                                     onPressed: () {
-                                      danaalok = int.parse(danaController.text
-                                          .replaceAll(
-                                              new RegExp(r'[^0-9]'), ''));
-                                      print("text | " + (danaController.text));
-                                      print("val | $danaalok");
                                       if (_formKey.currentState!.validate()) {
+                                        danaalok = int.parse(danaController.text
+                                            .replaceAll(
+                                                new RegExp(r'[^0-9]'), ''));
+                                        print(
+                                            "text | " + (danaController.text));
+                                        print("val | $danaalok");
                                         List<String> idsupervisor =
                                             List.empty(growable: true);
                                         List<String> namasupervisor =

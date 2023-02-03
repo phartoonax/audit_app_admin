@@ -6,8 +6,10 @@ import 'package:flutter_slider_drawer/flutter_slider_drawer.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TambahUser extends StatefulWidget {
-  const TambahUser({super.key});
+  const TambahUser({super.key, required this.userdata});
   final String title = "Tambah User";
+
+  final BackendlessUser userdata;
   @override
   State<TambahUser> createState() => _TambahUserState();
 }
@@ -24,7 +26,8 @@ class _TambahUserState extends State<TambahUser> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SliderDrawer(
-        slider: const SliderContent(selector: 5), // ISI SLIDER
+        slider:
+            SliderContent(selector: 5, userdata: widget.userdata), // ISI SLIDER
         appBar: SliderAppBar(
           //BLUE APPBAR
           appBarColor: Colors.white,
@@ -314,4 +317,3 @@ class _TambahUserState extends State<TambahUser> {
     );
   }
 }
-
