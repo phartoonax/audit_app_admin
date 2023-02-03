@@ -343,7 +343,7 @@ void laporanbaru() async {
   sheet.getRangeByName('F11').setNumber(itemproyek['budget_proyek']);
   range4.cellStyle.fontSize = 9;
   range4.cellStyle.hAlign = xlsio.HAlignType.right;
-  range4.numberFormat = 'Rp #.##0;-Rp#.##0';
+  range4.numberFormat = '\R\p #,##0;-\R\p#,##0';
 
   //ISHEADER
 
@@ -390,7 +390,7 @@ void laporanbaru() async {
       sheet
           .getRangeByName('E' + currow.toString() + ':G' + currow.toString())
           .cellStyle
-          .numberFormat = r'Rp. #,##0';
+          .numberFormat = '\R\p #,##0;-\R\p#,##0';
       sheet
           .getRangeByName('A' + currow.toString() + ':D' + currow.toString())
           .cellStyle
@@ -412,7 +412,7 @@ void laporanbaru() async {
   range7.setText('TOTAL');
   range7.cellStyle.fontSize = 8;
   range8.setFormula('=SUM(G15:G$dataterakhir)');
-  range8.numberFormat = '\R\p #.##0;-\R\p#.##0';
+  range8.numberFormat = '\R\p #,##0;-\R\p#,##0';
   range8.cellStyle.fontSize = 24;
   range8.cellStyle.hAlign = xlsio.HAlignType.right;
   range8.cellStyle.bold = true;

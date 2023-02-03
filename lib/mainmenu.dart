@@ -83,10 +83,11 @@ class _MyHomePageState extends State<MyHomePage> {
             ..relationsDepth = 3)
           .then((values) {
         if (values != null) {
+          print(values);
           values.forEach((element) {
             listitemharian.add(element as Map);
-            loaded = true;
           });
+          loaded = true;
         }
       });
 
