@@ -157,6 +157,13 @@ class _LoginPageState extends State<LoginPage> {
                                       );
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(sbarnoticeabsen);
+                                      Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => MyHomePage(
+                                                  userdata: user,
+                                                )),
+                                      );
                                     });
                                   }
                                 }
