@@ -2,16 +2,14 @@
 import 'package:audit_app_admin/Project/detailrpoyek.dart';
 import 'package:collection/collection.dart';
 
-import 'dart:developer';
 import 'package:intl/intl.dart';
-import 'package:audit_app_admin/Project/tambahproyek.dart';
+
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:backendless_sdk/backendless_sdk.dart';
 import 'package:flutter_slider_drawer/flutter_slider_drawer.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'Widget/isislider.dart';
-import 'package:date_format/date_format.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.userdata});
@@ -280,6 +278,13 @@ class _MyHomePageState extends State<MyHomePage> {
                                             .forEach((element) {
                                           totalharian.add(int.parse(
                                               element['biaya'].toString()));
+                                        });
+                                        (filteredharian[indexes]['item_terkait']
+                                                as List)
+                                            .sort((a, b) {
+                                          var adate = a['waktu'];
+                                          var bdate = b['waktu'];
+                                          return -adate.compareTo(bdate);
                                         });
 
                                         return ExpansionTile(
