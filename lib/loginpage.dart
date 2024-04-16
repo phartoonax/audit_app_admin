@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 import 'mainmenu.dart';
 import 'package:flutter/material.dart';
 import 'package:backendless_sdk/backendless_sdk.dart';
@@ -11,7 +13,7 @@ class LoginPage extends StatefulWidget {
   State<LoginPage> createState() => _LoginPageState();
 }
 
-FocusNode node = new FocusNode();
+FocusNode node = FocusNode();
 
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
@@ -44,82 +46,108 @@ class _LoginPageState extends State<LoginPage> {
                 const SizedBox(
                   height: 30,
                 ),
-                Container(
-                  child: Form(
-                    key: _formKey,
-                    child: Column(
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                                width: 0.1,
-                              ),
-                              borderRadius: BorderRadius.circular(8)),
-                          padding: EdgeInsets.symmetric(
-                              vertical: 10.0, horizontal: 8.0),
-                          child: Column(
-                            children: [
-                              TextFormField(
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return "email tidak bisa kosong";
-                                  } else {
-                                    value = value.trim();
-                                    return null;
-                                  }
-                                },
-                                focusNode: node,
-                                maxLines: 1,
-                                controller: emailController,
-                                decoration: InputDecoration(
-                                  hintText: 'Enter your email',
-                                  errorText: onerror,
-                                  prefixIcon: const Icon(Icons.people),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
+                Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                              width: 0.1,
+                            ),
+                            borderRadius: BorderRadius.circular(8)),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: 8.0),
+                        child: Column(
+                          children: [
+                            TextFormField(
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return "email tidak bisa kosong";
+                                } else {
+                                  value = value.trim();
+                                  return null;
+                                }
+                              },
+                              focusNode: node,
+                              maxLines: 1,
+                              controller: emailController,
+                              decoration: InputDecoration(
+                                hintText: 'Enter your email',
+                                errorText: onerror,
+                                prefixIcon: const Icon(Icons.people),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
+                                    width: 1,
                                   ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color:
-                                          Theme.of(context).colorScheme.primary,
-                                      width: 1,
-                                    ),
-                                    borderRadius: BorderRadius.circular(10.0),
-                                  ),
+                                  borderRadius: BorderRadius.circular(10.0),
                                 ),
                               ),
-                              const SizedBox(
-                                height: 20,
-                              ),
-                              PasswordInput(
-                                  hintText: "Enter your password",
-                                  textEditingController: passwordController,
-                                  onerror: onerror),
-                            ],
-                          ),
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            PasswordInput(
+                                hintText: "Enter your password",
+                                textEditingController: passwordController,
+                                onerror: onerror),
+                          ],
                         ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        ElevatedButton(
-                          onPressed: () {
-                            FocusManager.instance.primaryFocus?.unfocus();
-                            if (_formKey.currentState!.validate()) {
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          FocusManager.instance.primaryFocus?.unfocus();
+                          if (_formKey.currentState!.validate()) {
+                            Backendless.userService
+                                .login(emailController.text,
+                                    passwordController.text, true)
+                                .then((user) {
                               Backendless.userService
-                                  .login(emailController.text,
-                                      passwordController.text, true)
-                                  .then((user) {
-                                Backendless.userService
-                                    .isValidLogin()
-                                    .then((response) {
+                                  .isValidLogin()
+                                  .then((response) {
+                                if (kDebugMode) {
                                   print("Is login valid? - $response");
-                                  if (response == true && user != null) {
-                                    var rol = user.getProperty('role');
-                                    if (rol == 'Admin') {
+                                }
+                                if (response == true && user != null) {
+                                  var rol = user.getProperty('role');
+                                  if (rol == 'Admin') {
+                                    final sbarnoticeabsen = SnackBar(
+                                      behavior: SnackBarBehavior.floating,
+                                      duration: const Duration(seconds: 4),
+                                      content: const Text("Login Berhasi!"),
+                                      action: SnackBarAction(
+                                        label: 'OK',
+                                        onPressed: () =>
+                                            ScaffoldMessenger.of(context)
+                                                .hideCurrentSnackBar(),
+                                      ),
+                                    );
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(sbarnoticeabsen);
+                                    Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => MyHomePage(
+                                                userdata: user,
+                                              )),
+                                    );
+                                  } else {
+                                    Backendless.userService
+                                        .logout()
+                                        .then((value) {
                                       final sbarnoticeabsen = SnackBar(
                                         behavior: SnackBarBehavior.floating,
-                                        duration: Duration(seconds: 4),
-                                        content: Text("Login Berhasi!"),
+                                        duration: const Duration(seconds: 4),
+                                        content: const Text(
+                                            "Anda Bukan Administrator!"),
                                         action: SnackBarAction(
                                           label: 'OK',
                                           onPressed: () =>
@@ -136,79 +164,59 @@ class _LoginPageState extends State<LoginPage> {
                                                   userdata: user,
                                                 )),
                                       );
-                                    } else {
-                                      Backendless.userService
-                                          .logout()
-                                          .then((value) {
-                                        final sbarnoticeabsen = SnackBar(
-                                          behavior: SnackBarBehavior.floating,
-                                          duration: Duration(seconds: 4),
-                                          content:
-                                              Text("Anda Bukan Administrator!"),
-                                          action: SnackBarAction(
-                                            label: 'OK',
-                                            onPressed: () =>
-                                                ScaffoldMessenger.of(context)
-                                                    .hideCurrentSnackBar(),
-                                          ),
-                                        );
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(sbarnoticeabsen);
-                                      });
-                                    }
+                                    });
                                   }
-                                }).catchError((onError, stackTrace) {
-                                  print(
-                                      "There has been an error inside: $onError");
-                                  PlatformException platformException = onError;
-                                  print("Server reported an error inside.");
-                                  print(
-                                      "Exception code: ${platformException.code}");
-                                  print(
-                                      "Exception details: ${platformException.details}");
-                                  print("Stacktrace: $stackTrace");
-                                }, test: (e) => e is PlatformException);
+                                }
                               }).catchError((onError, stackTrace) {
                                 print(
-                                    "There has been an error outside: $onError");
+                                    "There has been an error inside: $onError");
                                 PlatformException platformException = onError;
+                                print("Server reported an error inside.");
                                 print(
                                     "Exception code: ${platformException.code}");
                                 print(
                                     "Exception details: ${platformException.details}");
                                 print("Stacktrace: $stackTrace");
-                                onerror = platformException.details;
-                                final sbarnoticeabsen = SnackBar(
-                                  duration: Duration(seconds: 10),
-                                  content: Text(
-                                      "telah terjadi sebuah error. ${platformException.message}"),
-                                  action: SnackBarAction(
-                                    label: 'OK',
-                                    onPressed: () =>
-                                        ScaffoldMessenger.of(context)
-                                            .hideCurrentSnackBar(),
-                                  ),
-                                );
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(sbarnoticeabsen);
                               }, test: (e) => e is PlatformException);
-                            }
-                          },
-                          style: ElevatedButton.styleFrom(
-                            padding: const EdgeInsets.fromLTRB(40, 15, 40, 15),
-                          ),
-                          child: const Text(
-                            'Sign in',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                            ),
+                            }).catchError((onError, stackTrace) {
+                              print(
+                                  "There has been an error outside: $onError");
+                              PlatformException platformException = onError;
+                              print(
+                                  "Exception code: ${platformException.code}");
+                              print(
+                                  "Exception details: ${platformException.details}");
+                              print("Stacktrace: $stackTrace");
+                              onerror = platformException.details;
+                              final sbarnoticeabsen = SnackBar(
+                                duration: const Duration(seconds: 10),
+                                content: Text(
+                                    "telah terjadi sebuah error. ${platformException.message}"),
+                                action: SnackBarAction(
+                                  label: 'OK',
+                                  onPressed: () => ScaffoldMessenger.of(context)
+                                      .hideCurrentSnackBar(),
+                                ),
+                              );
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(sbarnoticeabsen);
+                            }, test: (e) => e is PlatformException);
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.fromLTRB(40, 15, 40, 15),
+                        ),
+                        child: const Text(
+                          'Sign in',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                      ],
-                    ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                    ],
                   ),
                 ),
               ],
@@ -248,21 +256,21 @@ class _PasswordInputState extends State<PasswordInput> {
         hintText: widget.hintText,
         errorText: widget.onerror,
         enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(
+          borderSide: const BorderSide(
             color: Colors.black,
             width: 1,
           ),
           borderRadius: BorderRadius.circular(10.0),
         ),
         focusedErrorBorder: OutlineInputBorder(
-          borderSide: BorderSide(
+          borderSide: const BorderSide(
             color: Colors.red,
             width: 1,
           ),
           borderRadius: BorderRadius.circular(10.0),
         ),
         errorBorder: OutlineInputBorder(
-          borderSide: BorderSide(
+          borderSide: const BorderSide(
             color: Colors.red,
             width: 1,
           ),
