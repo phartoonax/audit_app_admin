@@ -12,7 +12,7 @@ import 'package:multi_select_flutter/multi_select_flutter.dart';
 
 class TambahProyek extends StatefulWidget {
   const TambahProyek({super.key, required this.userdata});
-  final String title = "Tambah User";
+  final String title = "Tambah Proyek";
   final BackendlessUser userdata;
   @override
   State<TambahProyek> createState() => _TambahProyekState();

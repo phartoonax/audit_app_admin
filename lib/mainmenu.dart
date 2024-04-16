@@ -281,6 +281,13 @@ class _MyHomePageState extends State<MyHomePage> {
                                           totalharian.add(int.parse(
                                               element['biaya'].toString()));
                                         });
+                                        (filteredharian[indexes]['item_terkait']
+                                                as List)
+                                            .sort((a, b) {
+                                          var adate = a['waktu'];
+                                          var bdate = b['waktu'];
+                                          return -adate.compareTo(bdate);
+                                        });
 
                                         return ExpansionTile(
                                             initiallyExpanded: true,

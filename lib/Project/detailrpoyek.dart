@@ -131,7 +131,12 @@ class _DetailProyekState extends State<DetailProyek> {
 
                             List<int> totalharian = List.empty(growable: true);
                             List<DataRow> rows = List.empty(growable: true);
-
+                            (daftarharian[index]['item_terkait'] as List)
+                                .sort((a, b) {
+                              var adate = a['waktu'];
+                              var bdate = b['waktu'];
+                              return -adate.compareTo(bdate);
+                            });
                             (daftarharian[index]['item_terkait'])
                                 .forEach((element) {
                               //CARI TOTAL HARIAN
@@ -392,7 +397,7 @@ void laporanbaru() async {
           .cellStyle
           .hAlign = xlsio.HAlignType.right;
       sheet
-          .getRangeByName('E' + currow.toString() + ':G' + currow.toString())
+          .getRangeByName('F' + currow.toString() + ':G' + currow.toString())
           .cellStyle
           .numberFormat = '\R\p #,##0;-\R\p#,##0';
       sheet
@@ -425,7 +430,7 @@ void laporanbaru() async {
   // File('AddingTextNumberDateTime.xlsx').writeAsBytes(bytes);
 //Dispose the workbook.
   workbook.dispose();
-  await saveAndLaunchFile(bytes, 'Invoice.xlsx');
+  await saveAndLaunchFile(bytes, 'Laporan.xlsx');
 }
 
 Future<void> saveAndLaunchFile(List<int> bytes, String fileName) async {

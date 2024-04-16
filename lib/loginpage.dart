@@ -144,7 +144,7 @@ class _LoginPageState extends State<LoginPage> {
                                           behavior: SnackBarBehavior.floating,
                                           duration: Duration(seconds: 4),
                                           content:
-                                              Text("Anda Bukan Supervisor!"),
+                                              Text("Anda Bukan Administrator!"),
                                           action: SnackBarAction(
                                             label: 'OK',
                                             onPressed: () =>
